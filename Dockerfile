@@ -11,17 +11,19 @@ RUN apt-get -y install wget git pwgen && \
 
 RUN echo "monoeci ALL = NOPASSWD : ALL" >> /etc/sudoers
 
-ARG MONOECICORE_VERSION="0.12.2"
-ARG MONOECICORE_FILENAME="monoeciCore-${MONOECICORE_VERSION}-linux64-cli.Ubuntu14.04.tar.gz"
-ARG MONOECICORE_URL="https://github.com/monacocoin-net/monoeci-core/releases/download/${MONOECICORE_VERSION}/${MONOECICORE_FILENAME}"
+ARG MONOECICORE_VERSION="0.12.2.3"
+ARG MONOECICORE_FILENAME="monoeciCore-${MONOECICORE_VERSION}-linux64.tar.gz"
+ARG MONOECICORE_URL="https://github.com/monacocoin-net/monoeci-core/releases/download/v${MONOECICORE_VERSION}/${MONOECICORE_FILENAME}"
+ARG MONOECICORE_DIR="monoeciCore-0.12.2"
 
 WORKDIR /root
 RUN wget ${MONOECICORE_URL} && \
 	tar xvf ${MONOECICORE_FILENAME} && \
-	cp ~/monoecid /usr/bin/ && rm -fr ~/monoecid && \
-	cp ~/monoeci-cli /usr/bin/ && rm -fr ~/monoeci-cli && \
-	cp ~/monoeci-tx /usr/bin/ && rm -fr ~/monoeci-tx \
-	rm -rf ${MONOECICORE_FILENAME}
+	cp ~/${MONOECICORE_DIR}/bin/monoecid /usr/bin/ && \
+	cp ~/${MONOECICORE_DIR}/bin/monoeci-cli /usr/bin/ && \
+	cp ~/${MONOECICORE_DIR}/bin/monoeci-tx /usr/bin/ && \
+	rm -rf ${MONOECICORE_FILENAME} && \
+	rm -rf ${MONOECICORE_DIR}
 
 RUN useradd --create-home monoeci && echo "monoeci:monoeci" | chpasswd && adduser monoeci sudo
 USER monoeci
