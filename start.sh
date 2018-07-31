@@ -34,7 +34,7 @@ EOF
 # daemon
 
 line="* * * * * cd /home/monoeci/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1"
-(crontab -l; echo "$line" ) | crontab  -
+(crontab -l 2>/dev/null; echo "$line") | crontab -
 
 sudo cron
 
