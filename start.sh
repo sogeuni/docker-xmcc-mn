@@ -32,9 +32,14 @@ externalip=$externalip
 EOF
 
 # daemon
-
+# ADD CRON
 line="* * * * * cd /home/monoeci/sentinel && ./venv/bin/python bin/sentinel.py >/dev/null 2>&1"
-(crontab -l 2>/dev/null; echo "$line") | crontab -
+crontab -l > mycron
+if ! grep -qF "$line" mycron; then
+	echo "$line" >> mycron
+	crontab mycron
+fi
+rm mycron
 
 sudo cron
 
